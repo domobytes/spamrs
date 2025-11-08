@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spamrs
+  labels:
+    app: spamrs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spamrs
+  template:
+    metadata:
+      labels:
+        app: spamrs
+    spec:
+      containers:
+      - name: spamrs
+        image: spamrs:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
