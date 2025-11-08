@@ -16,8 +16,19 @@ spec:
     spec:
       containers:
       - name: spamrs
-        image: spamrs:latest
+        image: registry:5000/spamrs:latest
         imagePullPolicy: Always
+        env:
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: LOKI_ENDPOINT
+            value: "http://grafana-loki-gateway.grafana/loki/api/v1/push"
+          - name: K8S_NAMESPACE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
         resources:
           requests:
             cpu: "100m"
