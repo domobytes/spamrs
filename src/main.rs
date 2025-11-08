@@ -40,8 +40,15 @@ async fn send_log(message: &str) -> Result<()> {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let message = format!("Info: Application started at {}", Utc::now());
-    send_log(&message).await?;
-    println!("Log sent: {}", message);
-    Ok(())
+    println!("Starting log spammer...");
+
+    // Calculate delay for roughly 500 requests per minute
+    let delay = std::time::Duration::from_millis(120); // 120ms = ~500 requests/minute
+
+    loop {
+        let message = format!("Info: Log entry at {}", Utc::now());
+        send_log(&message).await?;
+        println!("Log sent: {}", message);
+        tokio::time::sleep(delay).await;
+    }
 }
